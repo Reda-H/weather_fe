@@ -15,7 +15,7 @@ function App() {
 
   async function handleInput(e) {
     setOptions([]);
-    let response = await fetch(`http://weatherbe-env.eba-mxkrsb5p.eu-west-3.elasticbeanstalk.com/search?input=${e.target.value}`);
+    let response = await fetch(`https://weather-be.herokuapp.com/search?input=${e.target.value}`);
     let data = await response.json();
     setOptions(data.map(el => ({ label: el.name, id: el.id })));
 
@@ -29,7 +29,7 @@ function App() {
   }
 
   async function fetchData(city) {
-    let data = await (await fetch(`http://weatherbe-env.eba-mxkrsb5p.eu-west-3.elasticbeanstalk.com/weather?city=${city}`)).json();
+    let data = await (await fetch(`https://weather-be.herokuapp.com/weather?city=${city}`)).json();
     setData(data)
   }
 
