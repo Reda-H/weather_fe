@@ -1,0 +1,126 @@
+#root {
+  .theme-light {
+    --text-color: #282c34;
+    --background-color: #ffffff;
+    --text-link-color: #61dafb;
+  }
+
+  .theme-dark {
+    --text-color: #ffffff;
+    --background-color: #282c34;
+    --text-link-color: #61dafb;
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-main {
+  background-color: var(--background-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--text-color);
+}
+
+.App-link {
+  color: var(--text-link-color);
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &__title {
+      margin: 12px 0 6px 0;
+    }
+
+    &__time {
+      margin: 4px 10px;
+      font-size: 16px;
+    }
+  }
+
+  &__image {
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: white;
+    filter: drop-shadow(5px 5px 0px #000000);
+
+    img {
+      filter: drop-shadow(5px 5px 2px #000000);
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 10px;
+
+    &--left,
+    &--right {
+      width: 100%;
+    }
+
+    &--left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &--right {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    &__iconText {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    &__temperature {
+      font-weight: 300;
+      font-size: 40px;
+      margin: 15px 0 15px 0;
+    }
+
+    &__text {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      font-size: 40px;
+    }
+  }
+}
