@@ -1,4 +1,4 @@
-import { Autocomplete, Paper, TextField } from '@mui/material';
+import { Autocomplete, Paper, TextField, Zoom } from '@mui/material';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
 import './App.scss';
@@ -34,15 +34,6 @@ function App() {
   }
 
   function Details({ data }) {
-    const MINUTE_MS = 60000;
-    useEffect(() => {
-      const interval = setInterval(() => {
-        if (Object.keys(data).length !== 0) {
-          fetchData(lastSearch)
-        }
-      }, MINUTE_MS);
-      return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
-    }, [])
     if (Object.keys(data).length !== 0) {
       let sunriseNoShift = data.sys.sunrise;
       let sunsetNoShift = data.sys.sunset;
@@ -53,38 +44,54 @@ function App() {
       let sunset = moment.utc(sunsetNoShift, 'X').add(timezone, 'seconds').format('HH:mm a');
 
       return (
-        <div className="details" style={{ color: 'white' }}>
-          <div className='details__header'>
-            <h2 className='details__header__title'>{cityName}</h2>
-            <p className='details__header__time'>{time}</p>
-          </div>
-          <div className='details__image'>
-            <img src={data.image} alt={data.weather[0].description} />
-          </div>
-          <div className='details__info'>
-            <div className='details__info--left'>
-              <div className='details__info__iconText'>
-                <ThermometerIcon />
-                <h3 className='details__info__temperature'>{data.main.temp} <sup>°C</sup></h3>
+        <Zoom in={Object.keys(data).length !== 0} style={{ transitionDelay: '500ms'}}>
+          <Paper elevation={3} sx={{
+            '&.MuiPaper-root': {
+              width: 400,
+              height: 500,
+              borderRadius: 7,
+              border: '4px solid white',
+              background: '#282c34',
+              margin: 5,
+            }
+          }}>
+            <div className="details" style={{ color: 'white' }}>
+              <div className='details__header'>
+                <h2 className='details__header__title'>{cityName}</h2>
+                <p className='details__header__time'>{time}</p>
               </div>
-            </div>
+              <div className='details__image'>
+                <img src={data.image} alt={data.weather[0].description} />
+              </div>
+              <div className='details__info'>
+                <div className='details__info--left'>
+                  <div className='details__info__iconText'>
+                    <ThermometerIcon />
+                    <h3 className='details__info__temperature'>{data.main.temp} <sup>°C</sup></h3>
+                  </div>
+                </div>
 
-            <div className='details__info--right'>
-              <div className='details__info__iconText'>
-                <SunriseIcon />
-                <p className='details__info__sunrise'>{sunrise}</p>
-              </div>
-              <div className='details__info__iconText'>
-                <SunsetIcon />
-                <p className='details__info__sunset'>{sunset}</p>
+                <div className='details__info--right'>
+                  <div className='details__info__iconText'>
+                    <SunriseIcon />
+                    <p className='details__info__sunrise'>{sunrise}</p>
+                  </div>
+                  <div className='details__info__iconText'>
+                    <SunsetIcon />
+                    <p className='details__info__sunset'>{sunset}</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Paper>
+        </Zoom>
       )
     } else {
       return (
-        <div></div>
+        <div style={{
+          width: '400px',
+          height: '500px',
+          margin: '44px'}}></div>
       )
     }
   };
@@ -100,6 +107,11 @@ function App() {
             options={options}
             filterOptions={x => x}
             onClose={e => handleEnter({ key: 'Enter', target: { value: e.target.innerText } })}
+            sx={{
+              '.MuiAutocomplete-clearIndicator': {
+                color: 'white'
+              }
+            }}
             renderInput={(params) => <TextField label="City" variant="outlined" {...params} onInput={handleInput} onKeyPress={handleEnter} sx={{
               width: 400,
               '& label.Mui-focused, & label': {
@@ -119,23 +131,12 @@ function App() {
                 },
                 '&.Mui-focused fieldset': {
                   borderColor: 'white',
-                },
+                }
               }
             }} />} />
 
 
-          <Paper elevation={3} sx={{
-            '&.MuiPaper-root': {
-              width: 400,
-              height: 500,
-              borderRadius: 7,
-              border: '4px solid white',
-              background: '#282c34',
-              margin: 5,
-            }
-          }}>
-            <Details data={data} />
-          </Paper>
+          <Details data={data} />
         </main>
       </div>
     </ThemeContext>
