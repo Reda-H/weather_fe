@@ -106,7 +106,7 @@ function App() {
             id="outlined-basic"
             options={options}
             filterOptions={x => x}
-            onClose={e => handleEnter({ key: 'Enter', target: { value: e.target.innerText } })}
+            onChange={(event, value) => handleEnter({ key: 'Enter', target: { value: value.label } })}
             sx={{
               '.MuiAutocomplete-clearIndicator': {
                 color: 'white'
